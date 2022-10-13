@@ -1,2 +1,2 @@
 # tisane-code-gen
-Code generator fo Tisane (https://github.com/emjun/tisane)
+Code generator for Tisane (https://github.com/emjun/tisane)
