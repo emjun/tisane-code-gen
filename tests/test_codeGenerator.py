@@ -1,0 +1,109 @@
+"""
+Tests that the constructed statistical model generates a Python script correctly. 
+"""
+from tisaneCodeGenerator.statisticalModel import StatisticalModel
+from tisaneCodeGenerator.codeGeneratorStrings import CodeGeneratorStrings
+from tisaneCodeGenerator.codeGenerator import CodeGenerator
+
+# import pandas as pd
+import os
+from pathlib import Path
+from typing import Dict, Set
+import filecmp
+import unittest
+
+test_data_repo_name = "input_json/"
+test_script_repo_name = "output_scripts/"
+# test_generated_script_repo_name = "generated_scripts/"
+dir = os.path.dirname(__file__)
+data_dir = os.path.join(dir, test_data_repo_name)
+script_dir = os.path.join(dir, test_script_repo_name)
+# generated_script_dir = os.path.join(dir, test_generated_script_repo_name)
+# df = pd.read_csv(os.path.join(dir, "pigs.csv"))
+
+### Import helper functions
+from helpers import *
+
+class GenerateCodeTest(unittest.TestCase):
+    def test_code_generator_creation(self): 
+        filename = "main_only.json"
+        filepath = os.path.join(data_dir, filename)
+
+        sm = construct_statistical_model(filepath)        
+        data = Path('data.csv')
+        cg = CodeGenerator(sm, data) # Provide data
+        self.assertIsInstance(cg.dataPath, os.PathLike)
+        self.assertEqual(cg.dataPath, data)
+        self.assertRaises(ValueError, CodeGenerator.__init__, cg, sm, Path('data.txt'))
+
+    def test_load_strings(self): 
+        cg_strings = CodeGeneratorStrings()
+
+        self.assertIsInstance(cg_strings, CodeGeneratorStrings)
+        data = cg_strings.data
+        self.assertIsInstance(data, dict)
+        self.assertIn("installs", data.keys())
+        self.assertIn("imports", data.keys())
+
+    def test_preamble(self):
+        filename = "main_only.json"
+        filepath = os.path.join(data_dir, filename)
+
+        sm = construct_statistical_model(filepath)        
+        cg = CodeGenerator(sm)
+        self.assertIs(sm, cg.statisticalModel)
+
+        # Compare code snippets
+        preamble = cg.preamble()
+        self.assertIn("install.packages('tidyverse')", preamble)
+        self.assertIn("install.packages('lme4'", preamble)
+        self.assertIn("library(tidyverse)", preamble)
+        self.assertIn("library(lme4)", preamble)
+    
+    def test_loading(self): 
+        filename = "main_only.json"
+        filepath = os.path.join(data_dir, filename)
+
+        sm = construct_statistical_model(filepath)       
+
+        # Compare code snippets
+        cg = CodeGenerator(sm) # No data
+        self.assertIs(sm, cg.statisticalModel)
+        loading = cg.loading()
+        # Check that comment to add data path is included
+        self.assertIn("# Replace 'PATH'", loading)
+        self.assertIn("data <- read.csv('PATH')", loading)
+        
+        cg = CodeGenerator(sm, 'data.csv') # Provide data
+        self.assertIs(sm, cg.statisticalModel)
+        loading = cg.loading()
+        self.assertIn("data <- read.csv('data.csv')", loading)
+
+    def test_modeling(self): 
+        filename = "main_only.json"
+        filepath = os.path.join(data_dir, filename)
+
+        sm = construct_statistical_model(filepath)       
+
+        # Compare code snippets
+        cg = CodeGenerator(sm) # No data
+        self.assertIs(sm, cg.statisticalModel)
+        model = cg.modeling()
+
+        # START HERE: What should be in model 
+        # Y ~ X 
+
+
+
+    # def test_write_out_file(self): 
+    #     filename = "main_only.json"
+    #     filepath = os.path.join(data_dir, filename)
+
+    #     sm = construct_statistical_model(filepath)        
+    #     cg = CodeGenerator(sm)
+        
+    #     # Compare the generated script and the key
+    #     generated_script = cg.write_out_file()
+    #     key_script = os.path.join(script_dir, "main_only.R")
+    #     comp = filecmp.cmp(generated_script, key_script, shallow = False)
+    #     self.assertTrue(comp)

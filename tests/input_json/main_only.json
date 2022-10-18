@@ -1,0 +1,11 @@
+{
+    "dependent variable": "PINCP",
+    "family": "Gaussian",
+    "interaction effects": [],
+    "link": "identity",
+    "main effects": [
+        "AGEP",
+        "SCHL"
+    ],
+    "random effects": {}
+}
