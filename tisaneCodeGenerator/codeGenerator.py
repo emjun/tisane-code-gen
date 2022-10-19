@@ -80,8 +80,33 @@ class CodeGenerator:
         return data_snippet
 
     def modeling(self): 
-        return ""
+        # Is this a generalized linear model without random effects?
+        if not self.statisticalModel.has_random_effects(): 
+            model = self.strings.get("glm")
+        else: 
+            model = self.strings.get("glmer")
+        modeling_snippet = self.construct_code_snippet(model)   
+        
+        # Create formula pieces
+        dv = self.statisticalModel.dependent_variable
+        ivs = self.statisticalModel.get_independent_variables()
+        ivs = "+".join(ivs)
+        family = self.statisticalModel.family_function.lower()
+        link = self.statisticalModel.link_function.lower()
+        # Construct modeling code including formula, family, link, and data
+        modeling_snippet = modeling_snippet.format( dv=dv, 
+                                                    ivs=ivs, 
+                                                    family=family, 
+                                                    link=link, 
+                                                    data="data"
+                                                    )
+
+        # Return 
+        return modeling_snippet
+        
 
     def visualization(self): 
+        # Construct summary call  -- Should this be part of visualization and call it all summary()???
+
         return ""
     

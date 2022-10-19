@@ -9,5 +9,14 @@
     },
     "data": {
         "load csv": "data <- read.csv('{path}')"
+    },
+    "glm": {
+        "formula": "glm(formula={dv} ~ {ivs}, family={family}(link='{link}'), data={data})"
+    }, 
+    "glmer": {
+        "formula": ""
+    }, 
+    "summary": {
+
     }
 }

@@ -88,12 +88,28 @@ class GenerateCodeTest(unittest.TestCase):
         # Compare code snippets
         cg = CodeGenerator(sm) # No data
         self.assertIs(sm, cg.statisticalModel)
-        model = cg.modeling()
+        modeling = cg.modeling()
 
-        # START HERE: What should be in model 
-        # Y ~ X 
+        # Check the formula
+        formula = extract_formula(modeling)
+        dv = formula.split("~")[0]
+        ivs = formula.split("~")[1]
+        ivs = ivs.split("+")
+        self.assertEqual("PINCP", dv) # DV
+        self.assertIn("AGEP", ivs) # IVs
+        self.assertIn("SCHL", ivs)
 
-
+        # Check family function
+        family = extract_family(modeling)
+        self.assertEqual("gaussian", family)
+        
+        # Check link function
+        link = extract_link(modeling)
+        self.assertEqual("'identity'", link)
+        
+        # Check data
+        data = extract_data(modeling)
+        self.assertIn("data", data) # Data
 
     # def test_write_out_file(self): 
     #     filename = "main_only.json"

@@ -53,3 +53,30 @@ def construct_statistical_model(filename: Path):
     )
 
     return sm
+
+def extract_formula(modeling_snippet): 
+    modeling_snippet = modeling_snippet.strip() # remove trailing whitespace
+    modeling_snippet = modeling_snippet.replace(" ", "") # remove internal whitespace
+    formula = modeling_snippet.split("formula=")[1]
+    formula = formula.split(",family")[0]
+    
+    return formula
+
+def extract_family(modeling_snippet):
+    family = modeling_snippet.split("family=")[1]
+    family = family.split(",data")[0]
+    family = family.split("(")[0]
+    
+    return family
+
+def extract_link(modeling_snippet): 
+    link = modeling_snippet.split("link=")[1]
+    link = link.split(")")[0]
+    
+    return link
+    
+def extract_data(modeling_snippet): 
+    data = modeling_snippet.split("data=")[1]
+    data = data.split(")")
+    
+    return data
