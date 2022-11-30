@@ -1,0 +1,11 @@
+{
+    "dependent variable": "Y",
+    "family": "Gaussian",
+    "interaction effects": ["X1_X_X2"],
+    "link": "identity",
+    "main effects": [
+        "X1",
+        "X2"
+    ],
+    "random effects": {}
+}
