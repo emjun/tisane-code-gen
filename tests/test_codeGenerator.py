@@ -9,16 +9,18 @@ from tisaneCodeGenerator.codeGenerator import CodeGenerator
 import os
 from pathlib import Path
 from typing import Dict, Set
-import filecmp
+# import filecmp
+# from difflib import Differ
+import ast
 import unittest
 
 test_data_repo_name = "input_json/"
-test_script_repo_name = "output_scripts/"
-# test_generated_script_repo_name = "generated_scripts/"
+test_script_repo_name = "key_scripts/"
+test_generated_script_repo_name = "generated_scripts/"
 dir = os.path.dirname(__file__)
 data_dir = os.path.join(dir, test_data_repo_name)
 script_dir = os.path.join(dir, test_script_repo_name)
-# generated_script_dir = os.path.join(dir, test_generated_script_repo_name)
+generated_script_dir = os.path.join(dir, test_generated_script_repo_name)
 # df = pd.read_csv(os.path.join(dir, "pigs.csv"))
 
 ### Import helper functions
@@ -111,15 +113,16 @@ class GenerateCodeTest(unittest.TestCase):
         data = extract_data(modeling)
         self.assertIn("data", data) # Data
 
-    # def test_write_out_file(self): 
-    #     filename = "main_only.json"
-    #     filepath = os.path.join(data_dir, filename)
+    def test_write_out_file(self): 
+        filename = "main_only.json"
+        filepath = os.path.join(data_dir, filename)
 
-    #     sm = construct_statistical_model(filepath)        
-    #     cg = CodeGenerator(sm)
+        sm = construct_statistical_model(filepath)        
+        cg = CodeGenerator(sm)
+        generated_script_path = cg.write_out_file(path=generated_script_dir)
         
-    #     # Compare the generated script and the key
-    #     generated_script = cg.write_out_file()
-    #     key_script = os.path.join(script_dir, "main_only.R")
-    #     comp = filecmp.cmp(generated_script, key_script, shallow = False)
-    #     self.assertTrue(comp)
+        # Make sure the generated and output script runs
+        import subprocess
+        res = subprocess.call(f"Rscript {generated_script_path}", shell=True)
+        self.assertGreaterEqual(res, 0)
+        

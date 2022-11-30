@@ -26,8 +26,13 @@ class CodeGenerator:
 
         return snippet 
 
-    def write_out_file(self): 
-        output_file_path = os.path.join(os.path.dirname(__file__), "model.R")
+    def write_out_file(self, path: os.PathLike=None) -> os.path: 
+        filename = "model.R"
+        
+        if path: # If @param path is specified
+            output_file_path = os.path.join(path, filename)
+        else: # If @param path is not specified
+            output_file_path = os.path.join(os.path.dirname(__file__), filename)
         
         # Get handle to file (file object)
         output_file = open(output_file_path, "w") 
@@ -36,17 +41,17 @@ class CodeGenerator:
         output_file.writelines(script)
 
         # Return path to modeling file
-        return output_file_path
+        return os.path.join(output_file_path)
 
     def script(self): 
         # Generate code snippets for each part of the script
         preamble = self.preamble()
         loading = self.loading()
         modeling = self.modeling() 
-        visualization = self.visualization()
+        summary = self.summary()
 
         # Combine the code snippets 
-        code = preamble + loading + modeling + visualization
+        code = preamble + loading + modeling + summary
 
         # Return the complete script
         return code
@@ -102,11 +107,9 @@ class CodeGenerator:
                                                     )
 
         # Return 
-        return modeling_snippet
-        
+        return modeling_snippet    
 
-    def visualization(self): 
-        # Construct summary call  -- Should this be part of visualization and call it all summary()???
-
+    def summary(self): 
+        # Visualize
         return ""
     
