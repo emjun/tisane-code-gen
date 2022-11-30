@@ -191,6 +191,7 @@ class GenerateCodeTest(unittest.TestCase):
             generated_script_path = cg.write_out_file(path=generated_script_dir)
             
             # Make sure the generated and output script runs
+            # Not necessary to make sure that the script is identical to another key script, just that the script is valid and executable, even if a Path is missing
             import subprocess
-            res = subprocess.call(f"Rscript {generated_script_path}", shell=True)
-            self.assertGreaterEqual(res, 0)
+            res = subprocess.run(f"Rscript {generated_script_path}", shell=True)
+            self.assertGreaterEqual(res.returncode, 0)
