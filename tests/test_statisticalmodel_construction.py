@@ -1,7 +1,7 @@
 """
 Tests that the statistical model is constructed accurately from an input JSON file
 """
-from tisaneCodeGenerator.statisticalModel import StatisticalModel
+from tisanecodegenerator.statisticalModel import StatisticalModel
 
 
 # import pandas as pd

@@ -1,4 +1,4 @@
-from tisaneCodeGenerator.statisticalModel import StatisticalModel
+from tisanecodegenerator.statisticalModel import StatisticalModel
 
 import os
 from pathlib import Path

@@ -1,9 +1,9 @@
 """
 Tests that the constructed statistical model generates a Python script correctly. 
 """
-from tisaneCodeGenerator.statisticalModel import StatisticalModel
-from tisaneCodeGenerator.codeGeneratorStrings import CodeGeneratorStrings
-from tisaneCodeGenerator.codeGenerator import CodeGenerator
+from tisanecodegenerator.statisticalModel import StatisticalModel
+from tisanecodegenerator.codeGeneratorStrings import CodeGeneratorStrings
+from tisanecodegenerator.codeGenerator import CodeGenerator
 
 # import pandas as pd
 import os

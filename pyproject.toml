@@ -1,8 +1,15 @@
 [tool.poetry]
-name = "tisaneCodeGenerator"
-version = "0.1.0"
+name = "tisanecodegenerator"
+version = "0.1.3"
 description = "Code generator for Tisane"
+license = "Apache License 2.0" 
 authors = ["Eunice Jun <eunice.m.jun@gmail.com>"]
+
+repository = "https://github.com/emjun/rtisane"
+homepage = "tisane-stats.org"
+
+# README file(s) are used as the package description
+readme = ["README.md"]
 
 [tool.poetry.dependencies]
 python = "^3.8"

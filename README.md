@@ -1,6 +1,9 @@
+# Use case 
+Designed as a modular code generator for [Tisane](https://github.com/emjun/rTisane). 
+
 # Files 
 
-In `tisaneCodeGenerator`: 
+In `tisanecodegenerator`: 
     `codeGenerator.py`: CodeGenerator class that is responsible for generating code, A CodeGenerator has-a Statistical Model for which it generates code
     `strings.json`: Code templates to populate
     `codeGeneratorStrings.py`: Helper class for loading strings

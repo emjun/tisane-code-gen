@@ -1,5 +1,5 @@
-from tisaneCodeGenerator.statisticalModel import StatisticalModel
-from tisaneCodeGenerator.codeGeneratorStrings import CodeGeneratorStrings
+from tisanecodegenerator.statisticalModel import StatisticalModel
+from tisanecodegenerator.codeGeneratorStrings import CodeGeneratorStrings
 
 import os
 from pathlib import Path
